@@ -1,14 +1,9 @@
 package com.demo.urlshortener.service;
 
-import org.springframework.stereotype.Service;
+import com.demo.urlshortener.entity.URLDetails;
 
-import java.util.Map;
+public interface URLShortenerService {
 
-@Service
-public class URLShortenerService {
-
-    public Map<String, String> shortenURL() {
-        return null;
-    }
+    URLDetails shortenURL(String url);
 
 }

@@ -1,22 +1,24 @@
 package com.demo.urlshortener.controller;
 
-import com.demo.urlshortener.service.URLShortenerService;
+import com.demo.urlshortener.entity.URLDetails;
+import com.demo.urlshortener.service.URLShortenerServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @RestController
 public class URLShortenerController {
 
     @Autowired
-    private URLShortenerService urlShortenerService;
+    private URLShortenerServiceImpl urlShortenerService;
 
     @PostMapping(value = "/api/shorturl")
-    public Map<String, String> shortenURL() {
-        return urlShortenerService.shortenURL();
+    public @ResponseBody String shortenURL(@RequestBody Map<String, String> url, HttpServletRequest request) {
+        URLDetails urlDetails = this.urlShortenerService.shortenURL(url.get("url"));
+        String responseUrl = request.getHeader("host") + "/api/shorturl/" + urlDetails.getId().toString();
+        return responseUrl;
     }
 
     @GetMapping(value = "/api/shorturl/1")
